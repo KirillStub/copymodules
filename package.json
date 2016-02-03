@@ -1,0 +1,12 @@
+{
+  "name": "copymodules",
+  "version": "1.0.0",
+  "description": "Copy node modules to custom directory",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:KirillStub/copymodules.git"
+  },
+  "author": "Rodin Kirill",
+  "license": "MIT"
+}
