@@ -1,7 +1,6 @@
 var fs = require('fs'),
     path = require('path'),
     pkg = JSON.parse(fs.readFileSync('package.json')),
-    copymodules = pkg.copymodules,
     directory = pkg.copymodulesDir || 'copymodules';
 
 var deleteFolderRecursive = function(path) {
@@ -33,24 +32,17 @@ var copyRecursiveSync = function(src, dest) {
   }
 };
 
-if (copymodules && copymodules.forEach) {
-    try {
-        fs.mkdirSync(directory);
-    } catch (e) {}
-    copymodules.forEach( function (item) {
-        if(fs.existsSync('node_modules/' + item)) {
-            fs.readFile('node_modules/' + item + '/package.json', function (err, text) {
-                try {
-                    deleteFolderRecursive(directory + '/' + item);
-                } catch (e) {}
-                copyRecursiveSync('node_modules/' + item, directory + '/' + item);
-            });
-        } else {
-            console.log("no such directory 'node_modules/" + item + "'");
+
+try {
+	s.mkdirSync(directory);
+} catch (e) {}
+fs.readdirSync(src).forEach(function(item) {
+    fs.readFile('node_modules/' + item + '/package.json', function (err, text) {
+        if(JSON.parse(text).copymodules) {
+            try {
+                deleteFolderRecursive(directory + '/' + item);
+            } catch (e) {}
+            copyRecursiveSync('node_modules/' + item, directory + '/' + item);
         }
-        
     });
-} else {
-    console.log("Add a 'copymodules' array to package.json");
-    process.exit(1);
-}
+});
