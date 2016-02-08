@@ -36,7 +36,7 @@ var copyRecursiveSync = function(src, dest) {
 try {
 	s.mkdirSync(directory);
 } catch (e) {}
-fs.readdirSync(src).forEach(function(item) {
+fs.readdirSync('node_modules/').forEach(function(item) {
     fs.readFile('node_modules/' + item + '/package.json', function (err, text) {
         if(JSON.parse(text).copymodules) {
             try {
