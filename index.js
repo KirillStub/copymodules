@@ -34,7 +34,7 @@ var copyRecursiveSync = function(src, dest) {
 
 
 try {
-	s.mkdirSync(directory);
+	fs.mkdirSync(directory);
 } catch (e) {}
 fs.readdirSync('node_modules/').forEach(function(item) {
     fs.readFile('node_modules/' + item + '/package.json', function (err, text) {
@@ -43,6 +43,7 @@ fs.readdirSync('node_modules/').forEach(function(item) {
                 deleteFolderRecursive(directory + '/' + item);
             } catch (e) {}
             copyRecursiveSync('node_modules/' + item, directory + '/' + item);
+            console.log("Coped " + item + " to " + directory);
         }
     });
 });
