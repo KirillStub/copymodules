@@ -22,7 +22,7 @@ var copyRecursiveSync = function(src, dest) {
   var stats = exists && fs.statSync(src);
   var isDirectory = exists && stats.isDirectory();
   if (exists && isDirectory) {
-    fs.mkdirSync(dest);
+    mkdir(dest);
     fs.readdirSync(src).forEach(function(childItemName) {
       copyRecursiveSync(path.join(src, childItemName),
                         path.join(dest, childItemName));
@@ -32,6 +32,14 @@ var copyRecursiveSync = function(src, dest) {
   }
 };
 
+var mkdir = function(path, root) {
+    var dirs = path.split('/'), dir = dirs.shift(), root = (root || '') + dir + '/';
+    try { fs.mkdirSync(root); }
+    catch (e) {
+        if(!fs.statSync(root).isDirectory()) throw new Error(e);
+    }
+    return !dirs.length || mkdir(dirs.join('/'), root);
+}
 
 
 fs.readdirSync('node_modules/').forEach(function(item) {
@@ -39,7 +47,6 @@ fs.readdirSync('node_modules/').forEach(function(item) {
         if(JSON.parse(text).copymodules) {
             try {
                 deleteFolderRecursive(JSON.parse(text).copymodulesDir);
-                fs.mkdirSync(JSON.parse(text).copymodulesDir);
             } catch (e) {}
             copyRecursiveSync('node_modules/' + item, JSON.parse(text).copymodulesDir);
             console.log("Coped " + item + " to " + JSON.parse(text).copymodulesDir);
