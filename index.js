@@ -33,17 +33,15 @@ var copyRecursiveSync = function(src, dest) {
 };
 
 
-try {
-	fs.mkdirSync(directory);
-} catch (e) {}
+
 fs.readdirSync('node_modules/').forEach(function(item) {
     fs.readFile('node_modules/' + item + '/package.json', function (err, text) {
         if(JSON.parse(text).copymodules) {
             try {
-                deleteFolderRecursive(directory + '/' + item);
+                deleteFolderRecursive(JSON.parse(text).copymodulesDir);
             } catch (e) {}
-            copyRecursiveSync('node_modules/' + item, directory + '/' + item);
-            console.log("Coped " + item + " to " + directory);
+            copyRecursiveSync('node_modules/' + item, JSON.parse(text).copymodulesDir);
+            console.log("Coped " + item + " to " + JSON.parse(text).copymodulesDir);
         }
     });
 });
