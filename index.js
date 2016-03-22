@@ -39,6 +39,7 @@ fs.readdirSync('node_modules/').forEach(function(item) {
         if(JSON.parse(text).copymodules) {
             try {
                 deleteFolderRecursive(JSON.parse(text).copymodulesDir);
+                fs.mkdirSync(JSON.parse(text).copymodulesDir);
             } catch (e) {}
             copyRecursiveSync('node_modules/' + item, JSON.parse(text).copymodulesDir);
             console.log("Coped " + item + " to " + JSON.parse(text).copymodulesDir);
