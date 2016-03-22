@@ -24,11 +24,18 @@ var copyRecursiveSync = function(src, dest) {
   if (exists && isDirectory) {
     mkdir(dest);
     fs.readdirSync(src).forEach(function(childItemName) {
-      copyRecursiveSync(path.join(src, childItemName),
-                        path.join(dest, childItemName));
+      if(src.split('/').length==2 && childItemName=="Plugins") {
+        copyRecursiveSync(path.join(src, childItemName),
+                        path.join("Assets", childItemName));
+      } else {
+        copyRecursiveSync(path.join(src, childItemName),
+                        path.join(dest, childItemName));  
+      }
     });
-  } else {
-    fs.linkSync(src, dest);
+  } else {   
+    if(src.match(/Plugins.*meta/) == null ) {
+      fs.linkSync(src, dest);
+    }
   }
 };
 
