@@ -1,6 +1,6 @@
 {
   "name": "copymodules",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Copy node modules to custom directory",
   "main": "index.js",
   "repository": {

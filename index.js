@@ -48,7 +48,7 @@ var mkdir = function(path, root) {
     return !dirs.length || mkdir(dirs.join('/'), root);
 }
 
-
+deleteFolderRecursive("Assets/Plugins");
 fs.readdirSync('node_modules/').forEach(function(item) {
     fs.readFile('node_modules/' + item + '/package.json', function (err, text) {
         if(JSON.parse(text).copymodules) {
