@@ -24,18 +24,11 @@ var copyRecursiveSync = function(src, dest) {
   if (exists && isDirectory) {
     mkdir(dest);
     fs.readdirSync(src).forEach(function(childItemName) {
-      if(src.split('/').length==2 && childItemName=="Plugins") {
-        copyRecursiveSync(path.join(src, childItemName),
-                        path.join("Assets", childItemName));
-      } else {
         copyRecursiveSync(path.join(src, childItemName),
                         path.join(dest, childItemName));  
-      }
     });
   } else {   
-    if(src.match(/Plugins.*meta/) == null ) {
       fs.linkSync(src, dest);
-    }
   }
 };
 
@@ -48,7 +41,6 @@ var mkdir = function(path, root) {
     return !dirs.length || mkdir(dirs.join('/'), root);
 }
 
-deleteFolderRecursive("Assets/Plugins");
 fs.readdirSync('node_modules/').forEach(function(item) {
     fs.readFile('node_modules/' + item + '/package.json', function (err, text) {
         if(JSON.parse(text).copymodules) {
